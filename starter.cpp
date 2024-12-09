@@ -65,11 +65,24 @@ void add_key(map<int, list <string>>& hash_table) {
     cout << "Added code with hash index: " << hash_index << endl;
 }
 
-void remove_key() {
+void remove_key(map<int, list <string>>& hash_table) {
+    int key;
+    cout << "Enter hash index to remove: ";
+    cin >> key;
+
+    auto it = hash_table.find(key);
+    if (it != hash_table.end()) {
+        hash_table.erase(it);
+        cout << "Remove hash index " << key << endl;
+    } else {
+        cout << "Hash index not found." << endl;
+    }
 
 }
 
-void moidify_key() {
+void moidify_key(map<int, list<string>>& hash_table) {
+    int key;
+    cout << "Enter hash index to modify: ";
 
 }
 
@@ -125,6 +138,9 @@ int main() {
                 break;
             case 3:
                 add_key(hash_table);
+                break;
+            case 4:
+                remove_key(hash_table);
                 break;
         }
     } while (choice != 6);
