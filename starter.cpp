@@ -18,8 +18,19 @@ int gen_hash_index(string str){
     return sum;
 }
 
-void print_first_100(){
+void print_first_100 (const map<int, list<string>>& hash_table) {
+    int count = 0;
+    for (const auto& entry : hash_table){
+        cout << "Hash index " << entry.first << ": ";
+        for(const string& code : entry.second){
+            cout << code<< " ";
+        }
+        cout << endl;
 
+        count++;
+        if (count >= 100) 
+        break;
+    }
 }
 
 void search_key() {
@@ -58,18 +69,7 @@ int main() {
     
     //cout << "\nGrand total of ASCII values: " << total << endl;
     cout << "\nFirst 100 hash table entries:" << endl;
-    int count = 0;
-    for (const auto& entry : hash_table){
-        cout << "Hash index " << entry.first << ": ";
-        for(const string& code : entry.second){
-            cout << code<< " ";
-        }
-        cout << endl;
-
-        count++;
-        if (count >= 100) 
-        break;
-    }
+    
     
     file.close();
 
