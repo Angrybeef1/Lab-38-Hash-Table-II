@@ -18,6 +18,7 @@ int gen_hash_index(string str){
     return sum;
 }
 
+//to display first 100  table entries
 void print_first_100 (const map<int, list<string>>& hash_table) {
     int count = 0;
     for (const auto& entry : hash_table){
@@ -32,7 +33,7 @@ void print_first_100 (const map<int, list<string>>& hash_table) {
         break;
     }
 }
-
+//searches and displays values at a hash index
 void search_key(const map<int, list<string>>& hash_table) {
     int key;
     cout << "Enter hash index to search: ";
@@ -51,6 +52,7 @@ void search_key(const map<int, list<string>>& hash_table) {
 
 }
 
+//adds a code to the table, using 12 character value to match data file
 void add_key(map<int, list <string>>& hash_table) {
     string code;
     cout << "Enter 12-character code to add: ";
@@ -65,6 +67,7 @@ void add_key(map<int, list <string>>& hash_table) {
     cout << "Added code with hash index: " << hash_index << endl;
 }
 
+//removes values at specified index
 void remove_key(map<int, list <string>>& hash_table) {
     int key;
     cout << "Enter hash index to remove: ";
@@ -80,9 +83,38 @@ void remove_key(map<int, list <string>>& hash_table) {
 
 }
 
-void moidify_key(map<int, list<string>>& hash_table) {
+//modifies the existing code for a new one
+void modify_key(map<int, list<string>>& hash_table) {
     int key;
     cout << "Enter hash index to modify: ";
+    cin >> key;
+
+    auto it = hash_table.find(key);
+    if (it != hash_table.end()) {
+        string old_code, new_code;
+        cout << "Current values: ";
+        for(const string& code : it->second){
+            cout << code << " ";
+        }
+        cout << "\nEnter code to modify: ";
+        cin >> old_code;
+        cout << "Enter new code (12 Characters): ";
+        cin >> new_code;
+
+        if (new_code.length() !=12) {
+            cout << "Error: code is not 12 characters long." << endl;
+            return;
+        }
+
+        it->second.remove(old_code);
+        int new_hash = gen_hash_index(new_code);
+        hash_table[new_hash].push_back(new_code);
+        cout << "Code Modified, new hash index: " << new_hash << endl;
+        
+    } else {
+        cout << "Hash index not found." << endl;
+    }
+
 
 }
 
@@ -104,14 +136,10 @@ int main() {
         }
     }
     
-    //cout << "\nGrand total of ASCII values: " << total << endl;
-    cout << "\nFirst 100 hash table entries:" << endl;
-    
-    
+        
     file.close();
 
-    //menu
-
+    //menu to loop until exited
     int choice;
     do {
         cout << "\nHash Table Menu:" << endl;
@@ -129,7 +157,10 @@ int main() {
             cout << "Invalid input. Please enter a number." << endl;
             continue;
         }
+        //switch to process choice menu options
         switch(choice){
+            default:
+                cout << "Invalid choice. Try again." << endl;
             case 1:
                 print_first_100(hash_table);
                 break;
@@ -142,17 +173,16 @@ int main() {
             case 4:
                 remove_key(hash_table);
                 break;
+            case 5: 
+                modify_key(hash_table);
+                break;
+            case 6:
+                cout << "Exiting program." << endl;
+                break;
         }
     } while (choice != 6);
-    return 0;
 
-    
+    return 0;
 }
 
-/* 
-These targets are present in the dataset and can be used for testing:
-536B9DFC93AF
-1DA9D64D02A0
-666D109AA22E
-E1D2665B21EA
-*/
+
