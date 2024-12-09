@@ -33,12 +33,36 @@ void print_first_100 (const map<int, list<string>>& hash_table) {
     }
 }
 
-void search_key() {
+void search_key(const map<int, list<string>>& hash_table) {
+    int key;
+    cout << "Enter hash index to search: ";
+    cin >> key;
+
+    auto it = hash_table.find(key);
+    if(it != hash_table.end()){
+        cout << "Found Values for hash index " << key << ": ";
+        for (const string& code : it -> second) {
+            cout << code << " ";
+        }
+        cout << endl;
+    } else {
+        cout << "hash index does not exist" << endl;
+    }
 
 }
 
-void add_key(){
+void add_key(map<int, list <string>>& hash_table) {
+    string code;
+    cout << "Enter 12-character code to add: ";
+    cin >> code;
 
+    if(code.length() != 12) {
+        cout << "Error: code is not 12 characters long." << endl;
+    }
+
+    int hash_index = gen_hash_index(code);
+    hash_table[hash_index].push_back(code);
+    cout << "Added code with hash index: " << hash_index << endl;
 }
 
 void remove_key() {
@@ -95,6 +119,12 @@ int main() {
         switch(choice){
             case 1:
                 print_first_100(hash_table);
+                break;
+            case 2:
+                search_key(hash_table);
+                break;
+            case 3:
+                add_key(hash_table);
                 break;
         }
     } while (choice != 6);
